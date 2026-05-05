@@ -39,3 +39,5 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           title: "[nixpkgs] update input URL"
+          labels: |
+            update
