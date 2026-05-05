@@ -40,5 +40,12 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
           title: "[nixpkgs] update input URL"
+          branch: update-nixpkgs-url
           labels: |
             update
+
+      - uses: benc-uk/workflow-dispatch@v1
+        if: ${{ contains(fromJSON('["created", "updated"]'), steps.update-flake-lock.outputs.pull-request-operation) }}
+        with:
+          workflow: check.yml
+          ref: refs/heads/update-nixpkgs-url
