@@ -29,7 +29,7 @@ jobs:
           set -euxo pipefail
           CURRENT=$(grep -oP 'nixos-\K\d{2}.\d{2}' flake.nix)
           ENDPOINT="https://api.github.com/repos/nixos/nixpkgs/tags"
-          LATEST_STABLE=$(curl "$ENDPOINT" | jq -rc 'map(.name) | map(match("^\\\\d\\\\d\\\\.\\\\d\\\\d$").string) | sort | reverse | first')
+          LATEST_STABLE=$(curl "$ENDPOINT" | jq -rc 'map(.name) | map(match("^\\d\\d\\.\\d\\d$").string) | sort | reverse | first')
 
           sed -i --regexp-extended "s/nixos-[[:digit:]]+.[[:digit:]]+/nixos-$LATEST_STABLE/g" flake.nix
 
