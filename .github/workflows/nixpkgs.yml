@@ -27,7 +27,7 @@ jobs:
       - id: update-flake-lock
         run: |
           set -euxo pipefail
-          CURRENT=$(grep -oP 'nixos-\\K\\d{2}.\\d{2}' flake.nix)
+          CURRENT=$(grep -oP 'nixos-\K\d{2}.\d{2}' flake.nix)
           ENDPOINT="https://api.github.com/repos/nixos/nixpkgs/tags"
           LATEST_STABLE=$(curl "$ENDPOINT" | jq -rc 'map(.name) | map(match("^\\\\d\\\\d\\\\.\\\\d\\\\d$").string) | sort | reverse | first')
 
