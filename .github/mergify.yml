@@ -10,6 +10,7 @@ pull_request_rules:
           - label=update
       - check-success=Build
       - check-success=Format
+      - check-success=Flake Check
     actions:
       merge:
         method: squash
