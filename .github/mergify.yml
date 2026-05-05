@@ -12,4 +12,4 @@ pull_request_rules:
       - check-success=Format
     actions:
       merge:
-        method: rebase
+        method: squash
