@@ -1,0 +1,43 @@
+name: Flake
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  schedule:
+    - cron: "0 10 5 * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    name: Flake Update
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: configure git
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user-email 'github-actions[bot]@users.noreply.github.com'
+
+      - id: update-flake-lock
+        run: |
+          set -euxo pipefail
+          CURRENT=$(grep -oP 'nixos-\\K\\d{2}.\\d{2}')
+          ENDPOINT="https://api.github.com/repos/nixos/nixpkgs/tags"
+          LATEST_STABLE=$(curl "$endpoint" | jq -rc 'map(.name) | map(match("^\\\\d\\\\d\\\\.\\\\d\\\\d$").string) | sort | reverse | first')
+
+          sed -i --regexp-extended 's/nixos-[[:digit:]]+.[[:digit:]]+/nixos-$LATEST_STABLE/g' flake.nix
+
+          git commit -am "flake: nixpkgs input `$CURRENT` -> `$LATEST_STABLE`"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          title: "[nixpkgs] update input URL"
+          labels: |
+            update
