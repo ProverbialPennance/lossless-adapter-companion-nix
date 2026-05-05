@@ -31,9 +31,9 @@ jobs:
           ENDPOINT="https://api.github.com/repos/nixos/nixpkgs/tags"
           LATEST_STABLE=$(curl "$ENDPOINT" | jq -rc 'map(.name) | map(match("^\\\\d\\\\d\\\\.\\\\d\\\\d$").string) | sort | reverse | first')
 
-          sed -i --regexp-extended 's/nixos-[[:digit:]]+.[[:digit:]]+/nixos-$LATEST_STABLE/g' flake.nix
+          sed -i --regexp-extended "s/nixos-[[:digit:]]+.[[:digit:]]+/nixos-$LATEST_STABLE/g" flake.nix
 
-          git commit -am "flake: nixpkgs input `$CURRENT` -> `$LATEST_STABLE`"
+          git commit -am "flake: nixpkgs input \`$CURRENT\` -> \`$LATEST_STABLE\`"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
