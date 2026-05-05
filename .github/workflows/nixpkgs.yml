@@ -1,4 +1,4 @@
-name: Flake
+name: Nixpkgs
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -10,7 +10,7 @@ on:
 
 jobs:
   update:
-    name: Flake Update
+    name: Nixpkgs Update
     runs-on: ubuntu-latest
     permissions:
       actions: write
