@@ -38,6 +38,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
+          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
           title: "[nixpkgs] update input URL"
           labels: |
             update
