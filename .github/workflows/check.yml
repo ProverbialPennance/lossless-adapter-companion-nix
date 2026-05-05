@@ -48,3 +48,16 @@ jobs:
       - run: |
           set -euxo pipefail
           nix build --no-link -L --verbose
+
+  flake:
+    name: Flake Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: DeterminateSystems/nix-installer-action@v22
+        with:
+          diagnostic-endpoint: ""
+      - run: |
+          set -euxo pipefail
+          nix -L flake check
